@@ -1,0 +1,28 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+{{ news_page.author.user.username|upper }}
+{% endblock title %}
+
+{% block undertitle %}
+Reporting The Right News
+{% endblock undertitle %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <p class="post-meta">
+            Posted by <a href="#">{{ news_page.author.user.username }}</a>
+            {{ news_page.publication_date|date:'d.m.Y' }}
+            </p>
+            <h1>{{ news_page.title|censor }}</h1>
+            {{ news_page.content|censor }}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
