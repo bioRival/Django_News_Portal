@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+POST
+{% endblock title %}
+
+{% block undertitle %}
+Creating news and articles
+{% endblock undertitle %}
+
+{% block content %}
+<div class="container">
+    <h2>Post creation:</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="POST" />
+    </form>
+
+</div>
+
+{% endblock content %}

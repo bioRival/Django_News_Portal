@@ -19,6 +19,18 @@ Reporting The Right News
             Posted by <a href="#">{{ news_page.author.user.username }}</a>
             {{ news_page.publication_date|date:'d.m.Y' }}
             </p>
+            <!-- Two buttons "Edit" and "Delete". Links change based on what type a post is - news or article -->
+
+            <button onclick="location.href='http://127.0.0.1:8000/{{ news_page.type|type_into_word }}/{{ news_page.pk }}/edit';"
+                    type="button" class="btn btn-outline-secondary">
+                Edit
+            </button>
+
+            <button onclick="location.href='http://127.0.0.1:8000/{{ news_page.type|type_into_word }}/{{ news_page.pk }}/delete';"
+                    type="button" class="btn btn-outline-secondary">
+                Delete
+            </button>
+
             <h1>{{ news_page.title|censor }}</h1>
             {{ news_page.content|censor }}
         </div>

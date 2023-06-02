@@ -26,3 +26,15 @@ def censor(value):
             else:
                 break
     return value
+
+
+# filter to trun raw type of a Post model into a part of a link. Example "N" --> "/news/14/edit", used in "news_page.html"
+@register.filter()
+def type_into_word(value):
+    if value == "N":
+        value = "news"
+    elif value == "A":
+        value = "articles"
+    else:
+        raise ValueError("custom filter type_into_word accepts only N or A as it's value")
+    return value

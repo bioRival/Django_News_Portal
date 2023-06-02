@@ -16,11 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from news.views import PostsList
+from news.views import PostsList, PostCreate, PostUpdate, PostDelete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('news/', include('news.urls')),
     path('', PostsList.as_view()),
+    path('articles/create/', PostCreate.as_view(), name="article_create"),
+    path('articles/<int:pk>/edit/', PostUpdate.as_view(), name='article_update'),
+    path('articles/<int:pk>/delete/', PostDelete.as_view(), name='article_delete')
 ]

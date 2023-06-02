@@ -1,14 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 POST_TYPE = [
     ("N", "News"),
-    ("A", "Article")
+    ("A", "Articles")
 ]
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField(default = 0)
+
+    def __str__(self):
+        return self.user.username
 
     # Calculates the rating of an author based on:
     # 1 - posts written by an author * 3
@@ -31,6 +35,9 @@ class Author(models.Model):
 class Category(models.Model):
     tag = models.CharField(max_length=64, unique = True)
 
+    def __str__(self):
+        return self.tag
+
 
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -49,6 +56,9 @@ class Post(models.Model):
 
     def preview(self):
         return self.content[:124] + "..."
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
 
 
 class PostCategory(models.Model):
