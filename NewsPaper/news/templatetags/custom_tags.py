@@ -8,3 +8,8 @@ def url_replace(context, **kwargs):
    for k, v in kwargs.items():
        d[k] = v
    return d.urlencode()
+
+
+@register.filter('in_group')
+def in_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()

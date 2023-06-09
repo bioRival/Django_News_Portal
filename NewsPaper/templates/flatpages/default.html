@@ -12,6 +12,7 @@
     <title>NewsPaper</title>
 
     {% load static %}
+    {% load custom_tags %}
 
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -50,12 +51,40 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+
+                    {% if not request.user|in_group:"authors" %}
+                        <li>
+                            <a href="http://127.0.0.1:8000/news/makeauthor">Become an author!</a>
+                        </li>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated %}
+                        <li>
+                            <a href="#">Logged in as {{ request.user.username }}</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:8000/accounts/logout">Logout</a>
+                        </li>
+                    {% endif %}
+
+                    {% if not request.user.is_authenticated %}
+                        <li>
+                            <a href="http://127.0.0.1:8000/accounts/login">Login</a>
+                        </li>
+                    {% endif %}
+
+                    {% if request.user|in_group:"authors" %}
                     <li>
                         <a href="http://127.0.0.1:8000/news/create">Create News</a>
                     </li>
+                    {% endif %}
+
+                    {% if request.user|in_group:"authors" %}
                     <li>
                         <a href="http://127.0.0.1:8000/articles/create">Create Article</a>
                     </li>
+                    {% endif %}
+
                     <li>
                         <a href="http://127.0.0.1:8000/">Home</a>
                     </li>
