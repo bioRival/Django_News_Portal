@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -8,6 +8,7 @@ from .filters import PostFilter
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 
 class NewsList(ListView):
@@ -66,7 +67,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
             post.type = "N"
         else:
             post.type = "A"
-        print(self.request.path.split("/"))
+
         return super().form_valid(form)
 
 
@@ -91,3 +92,38 @@ def make_me_author(request):
     if not request.user.groups.filter(name='authors').exists():
         premium_group.user_set.add(user)
     return redirect('/')
+
+class CategoryList(ListView):
+    """List of all categories"""
+    model = Category
+    ordering = '-tag'
+    queryset = Category.objects.all()
+    template_name = 'categories.html'
+    context_object_name = 'category_list'
+
+class NewsCategoryList(ListView):
+    """News and articles of one the categories"""
+    model = Post
+    ordering = '-publication_date'
+
+    def get_queryset(self):
+        # get parameter from url, if there is none - will show 'news' by default
+        category_filter = self.request.GET.get('tag', 'news')
+        return Post.objects.filter(category__tag=category_filter)
+
+    template_name = 'news_category.html'
+    context_object_name = 'news_list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_filter'] = self.request.GET.get('tag', 'news')
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+        # Subscribing user for email newsletter
+        category_tag = self.request.GET.get('tag', 'news')
+        category_obj = Category.objects.get(tag=category_tag)
+        category_obj.subscribers.add(request.user)
+
+        return redirect("category")

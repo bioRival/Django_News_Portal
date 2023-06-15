@@ -1,0 +1,55 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+{{ category_filter }}
+{% endblock title %}
+
+{% block undertitle %}
+Reporting The Right News
+{% endblock undertitle %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <form action="" method='POST'>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-sm">E-mail subscription</button>
+            </form>
+            <h3>Newest news by newest date: </h3>
+            We got total of: {{ news_list|length }} news
+            {% for news in news_list %}
+                <div class="post-preview">
+                    <a href="http://127.0.0.1:8000/news/{{ news.pk }}">
+                        <h2 class="post-title">
+                            {{ news.title|censor }}
+                        </h2>
+                        <h3 class="post-subtitle">
+                            {{ news.content|truncatewords:20|censor }}
+                        </h3>
+                    </a>
+                    <p class="post-meta">
+                        Posted by <a href="#">{{ news.author.user.username }}</a>
+                        {{ news.publication_date|date:'d.m.Y' }}
+                    </p>
+                </div>
+                <hr>
+            {% empty %}
+                <h1>No news, yet! Hold on</h1>
+                <hr>
+            {% endfor %}
+
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="next">
+                    <a href="#">Older Posts &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

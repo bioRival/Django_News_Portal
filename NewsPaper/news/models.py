@@ -34,6 +34,8 @@ class Author(models.Model):
 
 class Category(models.Model):
     tag = models.CharField(max_length=64, unique = True)
+    subscribers = models.ManyToManyField(User, through='UserCategory')
+
 
     def __str__(self):
         return self.tag
@@ -78,3 +80,8 @@ class Comment(models.Model):
 
     def dislike(self):
         self.rating -= 1
+
+
+class UserCategory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)

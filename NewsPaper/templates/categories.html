@@ -1,0 +1,34 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Categories
+{% endblock title %}
+
+{% block undertitle %}
+Reporting The Right News
+{% endblock undertitle %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <h3>Categories: </h3>
+            Choose what type of content you would like to see
+            <hr>
+            {% for category in category_list %}
+                    <a href="http://127.0.0.1:8000/news/category/content?tag={{ category.tag }}">
+                      {{ category.tag }}
+                    </a>
+                <hr>
+            {% empty %}
+                <h1>No news, yet! Hold on</h1>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

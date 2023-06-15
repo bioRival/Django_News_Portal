@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'news',
+    #'news',
     'accounts',
     'django.contrib.sites',
     'django.contrib.flatpages',
@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
+    'news.apps.NewsConfig',
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -67,6 +69,20 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_FORMS = {'signup': 'news.forms.BasicSignupForm'}
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'biorival@yandex.ru'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_SSL = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+DEFAULT_FROM_EMAIL = 'biorival@yandex.ru'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
