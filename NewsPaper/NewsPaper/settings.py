@@ -84,6 +84,12 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
+CELERY_BROKER_URL = 'redis://default:88tEiEHdjM39t1QW9FTnjhF4vOFcMapv@redis-11806.c293.eu-central-1-1.ec2.cloud.redislabs.com:11806'
+CELERY_RESULT_BACKEND = 'redis://default:88tEiEHdjM39t1QW9FTnjhF4vOFcMapv@redis-11806.c293.eu-central-1-1.ec2.cloud.redislabs.com:11806'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
